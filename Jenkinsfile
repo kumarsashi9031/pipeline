@@ -18,6 +18,12 @@ pipeline {
                 // 
           }
         }
+        stage('email notification') {
+            steps {
+                emailext body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
+        
+            }    
+        }
         stage('deployment of an agent'){
             steps {
                 sshagent(['4a2572d4-8cde-4d54-b399-e767fd7c4413']) {
@@ -25,7 +31,7 @@ pipeline {
                 }   
             }   
         }
-     
+        
     } 
     post('archive the artifact') {
         success {
